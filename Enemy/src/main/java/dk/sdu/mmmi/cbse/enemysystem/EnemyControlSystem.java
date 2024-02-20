@@ -18,7 +18,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world) {
-
+        gameData.setTime(gameData.getTime() + 1);
         for(Entity enemy : world.getEntities(Enemy.class)){
             enemy.setX(enemy.getX() + 1);
         }
