@@ -7,6 +7,8 @@ public class GameData {
     private final GameKeys keys = new GameKeys();
     private int time = 0;
 
+    private long timeInMilli = System.currentTimeMillis();
+
 
     public GameKeys getKeys() {
         return keys;
@@ -34,5 +36,13 @@ public class GameData {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    public long getTimeInMilli() {
+        return timeInMilli;
+    }
+
+    public void setTimeInMilli(long timeInMilli) {
+        this.timeInMilli = timeInMilli;
     }
 }

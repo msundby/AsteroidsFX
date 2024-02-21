@@ -11,6 +11,15 @@ public class Entity implements Serializable {
     private double x;
     private double y;
     private double rotation;
+    private String name;
+
+    public Entity(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
             
 
     public String getID() {

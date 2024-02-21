@@ -9,24 +9,54 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 
+    double playerX;
+    double playerY;
+
     @Override
     public void process(GameData gameData, World world) {
 
+
+        for (Entity player : world.getEntities()) {
+            if (player.getName().equals("Player")) {
+                playerX = player.getX();
+                playerY = player.getY();
+            }
+        }
+
+        System.out.println(playerX);
+        System.out.println(playerY);
+
         for (Entity bullet : world.getEntities(Bullet.class)) {
-            double changeX = Math.cos(Math.toRadians(bullet.getRotation()));
-            double changeY = Math.sin(Math.toRadians(bullet.getRotation()));
-            bullet.setX(bullet.getX() + changeX * 3);
-            bullet.setY(bullet.getY() + changeY * 3);
+                double changeX = Math.cos(Math.toRadians(bullet.getRotation()));
+                double changeY = Math.sin(Math.toRadians(bullet.getRotation()));
+                bullet.setX(bullet.getX() + changeX * 3);
+                bullet.setY(bullet.getY() + changeY * 3);
         }
     }
 
-    @Override
-    public Entity createBullet(Entity shooter, GameData gameData) {
-        Entity bullet = new Bullet();
-        bullet.setPolygonCoordinates(1, -1, 1, 1, -1, 1, -1, -1);
-        bullet.setX(shooter.getX());
-        bullet.setY(shooter.getY());
-        bullet.setRotation(shooter.getRotation());
-        return bullet;
+        @Override
+        public Entity createBullet (Entity shooter, GameData gameData){
+
+            Entity bullet;
+
+            if (shooter.getName().equals("Player")) {
+                bullet = new Bullet("Player Bullet");
+                bullet.setPolygonCoordinates(2, -2, 2, 2, -2, 2, -2, -2);
+                bullet.setX(shooter.getX());
+                bullet.setY(shooter.getY());
+                bullet.setRotation(shooter.getRotation());
+            } else {
+                bullet = new Bullet("Enemy Bullet");
+
+                bullet.setPolygonCoordinates(2, -2, 2, 2, -2, 2, -2, -2);
+                bullet.setX(shooter.getX());
+                bullet.setY(shooter.getY());
+                bullet.setRotation();
+
+
+            }
+            return bullet;
+        }
+
+
     }
-}
