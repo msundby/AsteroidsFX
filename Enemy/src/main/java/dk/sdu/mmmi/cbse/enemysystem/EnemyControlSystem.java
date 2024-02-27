@@ -19,7 +19,6 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world) {
-//        System.out.println(gameData.getTime());
 
         gameData.setTime(gameData.getTime() + 1);
 
@@ -35,6 +34,8 @@ public class EnemyControlSystem implements IEntityProcessingService {
                 getBulletSPIs().stream().findFirst().ifPresent(
                         spi -> {world.addEntity(spi.createBullet(enemy, gameData));}
                 );
+            } if(enemy.getX() > gameData.getDisplayWidth() + 20){
+                world.removeEntity(enemy);
             }
         }
 

@@ -9,8 +9,8 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 
-    double playerX;
-    double playerY;
+    volatile double playerX = 0;
+    volatile double playerY = 0;
 
     @Override
     public void process(GameData gameData, World world) {
@@ -22,9 +22,6 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
                 playerY = player.getY();
             }
         }
-
-        System.out.println(playerX);
-        System.out.println(playerY);
 
         for (Entity bullet : world.getEntities(Bullet.class)) {
                 double changeX = Math.cos(Math.toRadians(bullet.getRotation()));
@@ -47,16 +44,29 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
                 bullet.setRotation(shooter.getRotation());
             } else {
                 bullet = new Bullet("Enemy Bullet");
-
                 bullet.setPolygonCoordinates(2, -2, 2, 2, -2, 2, -2, -2);
                 bullet.setX(shooter.getX());
                 bullet.setY(shooter.getY());
-                bullet.setRotation();
+
+                double dx = playerX - shooter.getX();
+                double dy = playerY - shooter.getY();
+                double angleToCenter = Math.toDegrees(Math.atan2(dy, dx));
+
+                if(angleToCenter < 0){
+                    angleToCenter += 360;
+                }
+
+                bullet.setRotation(angleToCenter);
+
+                System.out.println("X = " + playerX);
+                System.out.println("Y = " + playerY);
+                System.out.println("Angle to center = " + angleToCenter);
 
 
             }
             return bullet;
         }
+
 
 
     }
