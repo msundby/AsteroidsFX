@@ -54,6 +54,8 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 player.setY(1);
             }
 
+            PlayerTargetSystem.updatePlayerPosition(player.getX(), player.getY());
+
                                         
         }
     }
