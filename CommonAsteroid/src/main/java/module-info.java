@@ -1,4 +1,4 @@
 module CommonAsteroid {
     requires Common;
-    exports dk.sdu.mmmi.common.asteroid;
+    exports dk.sdu.mmmi.cbse.asteroid;
 }

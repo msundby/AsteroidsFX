@@ -21,7 +21,10 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
                 double changeY = Math.sin(Math.toRadians(bullet.getRotation()));
                 bullet.setX(bullet.getX() + changeX * 3);
                 bullet.setY(bullet.getY() + changeY * 3);
+
+                BulletTargetSystem.updateBulletPosition(bullet.getX(), bullet.getY());
         }
+
     }
 
         @Override
@@ -64,7 +67,6 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
             }
             return bullet;
         }
-
 
 
     }
