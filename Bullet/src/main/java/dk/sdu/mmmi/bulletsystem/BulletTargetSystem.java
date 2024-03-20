@@ -1,8 +1,8 @@
-package dk.sdu.mmmi.cbse.playersystem;
+package dk.sdu.mmmi.bulletsystem;
 
 import dk.sdu.mmmi.cbse.common.services.TargetSPI;
 
-public class PlayerTargetSystem implements TargetSPI {
+public class BulletTargetSystem implements TargetSPI {
 
     private static volatile double x,y = 0;
 
@@ -18,7 +18,7 @@ public class PlayerTargetSystem implements TargetSPI {
         return y;
     }
 
-    public static void updatePlayerPosition(double updatedX, double updatedY){
+    public static void updateBulletPosition(double updatedX, double updatedY){
         x = updatedX;
         y = updatedY;
     }

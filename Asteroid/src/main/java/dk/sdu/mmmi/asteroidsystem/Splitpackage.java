@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse;
+package dk.sdu.mmmi.asteroidsystem;
 
 public class Splitpackage {
     public static void main(String[] args) {
