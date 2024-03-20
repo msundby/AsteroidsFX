@@ -21,6 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -96,13 +98,22 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
-                update();
-                draw();
-                gameData.getKeys().update();
+                if (!gameData.isGameOver()) {
+                    update();
+                    draw();
+                    gameData.getKeys().update();
+                } else {
+                    stop();
+                    Text gameOverText = new Text(gameData.getDisplayWidth()/2 - 110, gameData.getDisplayHeight()/2, "Game Over");
+                    gameOverText.setStyle("-fx-font-size: 36px;");
+                    gameOverText.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 200));
+                    gameWindow.getChildren().add(gameOverText);
+                }
             }
 
         }.start();
     }
+
 
     private void update() {
 

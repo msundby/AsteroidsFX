@@ -8,6 +8,7 @@ public class GameData {
     private int time = 0;
 
     private long timeInMilli = System.currentTimeMillis();
+    private boolean isGameOver = false;
 
 
     public GameKeys getKeys() {
@@ -44,5 +45,13 @@ public class GameData {
 
     public void setTimeInMilli(long timeInMilli) {
         this.timeInMilli = timeInMilli;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
     }
 }
