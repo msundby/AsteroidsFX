@@ -55,6 +55,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, Asteroid
         asteroid.setX(-2);
         asteroid.setY(randomY);
         asteroid.setRotation(asteroid.getRotation() + 30);
+        asteroid.setRgb(255, 255, 255);
         return asteroid;
     }
 
@@ -65,6 +66,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, Asteroid
         asteroid.setX(randomX);
         asteroid.setY(-2);
         asteroid.setRotation(asteroid.getRotation() + 30);
+        asteroid.setRgb(255, 255, 255);
         return asteroid;
     }
 
@@ -75,6 +77,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, Asteroid
         asteroid.setX(randomX);
         asteroid.setY(-2);
         asteroid.setRotation(asteroid.getRotation() + 30);
+        asteroid.setRgb(255, 255, 255);
         return asteroid;
     }
 
@@ -85,6 +88,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, Asteroid
         asteroid.setX(randomX);
         asteroid.setY(-2);
         asteroid.setRotation(asteroid.getRotation() + 30);
+        asteroid.setRgb(255, 255, 255);
         return asteroid;
     }
 

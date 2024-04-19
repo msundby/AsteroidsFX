@@ -39,11 +39,13 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
                 bullet.setX(shooter.getX());
                 bullet.setY(shooter.getY());
                 bullet.setRotation(shooter.getRotation());
+                bullet.setRgb(255, 255, 255);
             } else  {
                 bullet = new Bullet("Enemy Bullet");
                 bullet.setPolygonCoordinates(2, -2, 2, 2, -2, 2, -2, -2);
                 bullet.setX(shooter.getX());
                 bullet.setY(shooter.getY());
+                bullet.setRgb(255, 255, 255);
 
                 Optional<TargetSPI> targetService = ServiceLoader.load(TargetSPI.class).findFirst();
                 double angleToCenter = 0;

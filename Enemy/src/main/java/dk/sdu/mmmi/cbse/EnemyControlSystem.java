@@ -49,6 +49,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
         enemyShip.setPolygonCoordinates(-15, 0, -7, 7, 7, 7, 15, 0, 7, -7, -7, -7);
         enemyShip.setX(-1);
         enemyShip.setY(randomHeight);
+        enemyShip.setRgb(255,0,0);
         return enemyShip;
     }
 

@@ -29,6 +29,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -75,6 +76,7 @@ public class Main extends Application {
     public void start(Stage window) throws Exception {
         Text text = new Text(10, 20, "Destroyed asteroids: 0");
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+        gameWindow.setStyle("-fx-background-color: black;");
         gameWindow.getChildren().add(text);
 
         Scene scene = new Scene(gameWindow);
@@ -162,6 +164,10 @@ public class Main extends Application {
             polygon.setTranslateX(entity.getX());
             polygon.setTranslateY(entity.getY());
             polygon.setRotate(entity.getRotation());
+
+            polygon.setFill(javafx.scene.paint.Color.rgb(entity.getRgb()[0],entity.getRgb()[1],entity.getRgb()[2]));
+
+//            polygon.setFill(Color.WHITE);
         }
 
     }
