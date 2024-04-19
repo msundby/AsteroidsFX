@@ -1,7 +1,7 @@
 
-import dk.sdu.mmmi.cbse.PlayerControlSystem;
-import dk.sdu.mmmi.cbse.PlayerPlugin;
-import dk.sdu.mmmi.cbse.PlayerTargetSystem;
+import dk.sdu.mmmi.cbse.playersystem.PlayerControlSystem;
+import dk.sdu.mmmi.cbse.playersystem.PlayerPlugin;
+import dk.sdu.mmmi.cbse.playersystem.PlayerTargetSystem;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.TargetSPI;
@@ -13,5 +13,6 @@ module Player {
     provides IGamePluginService with PlayerPlugin;
     provides IEntityProcessingService with PlayerControlSystem;
     provides TargetSPI with PlayerTargetSystem;
+    exports dk.sdu.mmmi.cbse.playersystem;
     
 }

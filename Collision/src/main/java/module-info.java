@@ -5,4 +5,5 @@ module Collision {
     requires Common;
     requires CommonBullet;
     provides IPostEntityProcessingService with CollisionPostProcessingSystem;
+    exports dk.sdu.mmmi.collision;
 }
