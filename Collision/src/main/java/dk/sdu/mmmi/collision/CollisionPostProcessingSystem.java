@@ -9,8 +9,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CollisionPostProcessingSystem implements IPostEntityProcessingService {
     HttpClient httpClient = HttpClient.newHttpClient();
@@ -19,29 +17,28 @@ public class CollisionPostProcessingSystem implements IPostEntityProcessingServi
 
     @Override
     public void process(GameData gameData, World world) {
-        List<Entity> entities = new ArrayList<>(world.getEntities());
-        for (int i = 0; i < entities.size(); i++) {
-            Entity e1 = entities.get(i);
-            for (int j = i + 1; j < entities.size(); j++) {
-                Entity e2 = entities.get(j);
 
+        System.out.println(world.getEntities().size());
+        for (Entity e1 : world.getEntities()) {
+            for (Entity e2 : world.getEntities()) {
+                if (e1.equals(e2)) continue;
                 if ((e1.getName().equals("Player") && e2.getName().equals("Player Bullet")) ||
-                        (e2.getName().equals("Player") && e1.getName().equals("Player Bullet"))) {
+                        e2.getName().equals("Player") && e1.getName().equals("Player Bullet")) {
                     continue;
                 }
 
                 if ((e1.getName().equals("Asteroid") && e2.getName().equals("Asteroid")) ||
-                        (e2.getName().equals("Asteroid") && e1.getName().equals("Asteroid"))) {
+                        e2.getName().equals("Asteroid") && e1.getName().equals("Asteroid")) {
                     continue;
                 }
 
                 if ((e1.getName().equals("Enemy") && e2.getName().equals("Enemy Bullet")) ||
-                        (e2.getName().equals("Enemy") && e1.getName().equals("Enemy Bullet"))) {
+                        e2.getName().equals("Enemy") && e1.getName().equals("Enemy Bullet")) {
                     continue;
                 }
 
                 if ((e1.getName().equals("Enemy Bullet") && e2.getName().equals("Enemy Bullet")) ||
-                        (e2.getName().equals("Enemy Bullet") && e1.getName().equals("Enemy Bullet"))) {
+                        e2.getName().equals("Enemy Bullet") && e1.getName().equals("Enemy Bullet")) {
                     continue;
                 }
 
@@ -50,54 +47,59 @@ public class CollisionPostProcessingSystem implements IPostEntityProcessingServi
                 double distanceBetween = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
 
                 if (distanceBetween < 10) {
+
                     if ((e1.getName().equals("Enemy Bullet") && e2.getName().equals("Player"))) {
-                        decrementLives();
+
+                        HttpRequest request = HttpRequest.newBuilder()
+                                .uri(URI.create("http://localhost:8080/attributes/lives/decrement/" + livesDecrement))
+                                .PUT(HttpRequest.BodyPublishers.noBody())
+                                .build();
+
+                        try {
+                            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                            if (response.statusCode() == 200) {
+                                System.out.println("Lives decremented successfully");
+                            } else {
+                                System.out.println("Failed to decrement lives. HTTP status code: " + response.statusCode());
+                            }
+                        } catch (IOException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     if ((e1.getName().equals("Player Bullet") && e2.getName().startsWith("Asteroid")) ||
-                            (e2.getName().startsWith("Asteroid") && e1.getName().equals("Player Bullet"))) {
+                            e2.getName().startsWith("Asteroid") && e1.getName().equals("Player Bullet")) {
                         world.removeEntity(e1);
                         world.removeEntity(e2);
-                        updateScore();
+
+                        if ((e1.getName().equals("Player Bullet") && e2.getName().startsWith("Asteroid")) ||
+                                e2.getName().startsWith("Asteroid") && e1.getName().equals("Player Bullet")) {
+                            world.removeEntity(e1);
+                            world.removeEntity(e2);
+
+                            HttpRequest request = HttpRequest.newBuilder()
+                                    .uri(URI.create("http://localhost:8080/attributes/score/update/" + scoreToAdd))
+                                    .PUT(HttpRequest.BodyPublishers.noBody())
+                                    .build();
+
+                            try {
+                                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                                if (response.statusCode() == 200) {
+                                    System.out.println("Score updated successfully");
+                                } else {
+                                    System.out.println("Failed to update score. HTTP status code: " + response.statusCode());
+                                }
+                            } catch (IOException | InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                     }
+
                 }
             }
-        }
-    }
-
-    private void decrementLives() {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/attributes/lives/decrement/" + livesDecrement))
-                .PUT(HttpRequest.BodyPublishers.noBody())
-                .build();
-
-        try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
-                System.out.println("Lives decremented successfully");
-            } else {
-                System.out.println("Failed to decrement lives. HTTP status code: " + response.statusCode());
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateScore() {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/attributes/score/update/" + scoreToAdd))
-                .PUT(HttpRequest.BodyPublishers.noBody())
-                .build();
-
-        try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
-                System.out.println("Score updated successfully");
-            } else {
-                System.out.println("Failed to update score. HTTP status code: " + response.statusCode());
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }
