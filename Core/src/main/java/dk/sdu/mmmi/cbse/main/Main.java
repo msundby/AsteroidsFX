@@ -196,6 +196,15 @@ public class Main extends Application {
         for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
         }
+        
+        Iterator<Entity> iterator = polygons.keySet().iterator();
+        while (iterator.hasNext()) {
+            Entity entity = iterator.next();
+            if (!world.getEntities().contains(entity)) {
+                gameWindow.getChildren().remove(polygons.get(entity));
+                iterator.remove();
+            }
+        }
     }
 
     private void draw() {
@@ -206,6 +215,10 @@ public class Main extends Application {
                 polygons.put(entity, polygon);
                 gameWindow.getChildren().add(polygon);
             }
+
+
+
+            
             polygon.setTranslateX(entity.getX());
             polygon.setTranslateY(entity.getY());
             polygon.setRotate(entity.getRotation());
