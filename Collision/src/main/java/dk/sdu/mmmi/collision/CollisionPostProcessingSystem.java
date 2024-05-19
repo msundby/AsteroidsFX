@@ -48,7 +48,8 @@ public class CollisionPostProcessingSystem implements IPostEntityProcessingServi
 
                 if (distanceBetween < 10) {
 
-                    if ((e1.getName().equals("Enemy Bullet") && e2.getName().equals("Player"))) {
+                    if ((e1.getName().equals("Enemy Bullet") && e2.getName().equals("Player")) ||
+                            e2.getName().startsWith("Player") && e1.getName().equals("Enemy Bullet")) {
 
                         HttpRequest request = HttpRequest.newBuilder()
                                 .uri(URI.create("http://localhost:8080/attributes/lives/decrement/" + livesDecrement))
@@ -67,11 +68,6 @@ public class CollisionPostProcessingSystem implements IPostEntityProcessingServi
                             e.printStackTrace();
                         }
                     }
-
-                    if ((e1.getName().equals("Player Bullet") && e2.getName().startsWith("Asteroid")) ||
-                            e2.getName().startsWith("Asteroid") && e1.getName().equals("Player Bullet")) {
-                        world.removeEntity(e1);
-                        world.removeEntity(e2);
 
                         if ((e1.getName().equals("Player Bullet") && e2.getName().startsWith("Asteroid")) ||
                                 e2.getName().startsWith("Asteroid") && e1.getName().equals("Player Bullet")) {
@@ -96,10 +92,33 @@ public class CollisionPostProcessingSystem implements IPostEntityProcessingServi
                             }
                         }
 
-                    }
+                    if ((e1.getName().equals("Player Bullet") && e2.getName().startsWith("Enemy")) ||
+                            e2.getName().startsWith("Enemy") && e1.getName().equals("Player Bullet")) {
+                        world.removeEntity(e1);
+                        world.removeEntity(e2);
 
+                        HttpRequest request = HttpRequest.newBuilder()
+                                .uri(URI.create("http://localhost:8080/attributes/score/update/" + scoreToAdd))
+                                .PUT(HttpRequest.BodyPublishers.noBody())
+                                .build();
+
+                        try {
+                            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                            if (response.statusCode() == 200) {
+                                System.out.println("Score updated successfully");
+                            } else {
+                                System.out.println("Failed to update score. HTTP status code: " + response.statusCode());
+                            }
+                        } catch (IOException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    }
                 }
             }
         }
     }
-}
+
+
+
