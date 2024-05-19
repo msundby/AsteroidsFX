@@ -4,6 +4,8 @@ import dk.sdu.mmmi.collision.CollisionPostProcessingSystem;
 module Collision {
     requires Common;
     requires CommonBullet;
-    provides IPostEntityProcessingService with CollisionPostProcessingSystem;
+    requires java.net.http;
+    provides IPostEntityProcessingService with dk.sdu.mmmi.collision.CollisionPostProcessingSystem;
     exports dk.sdu.mmmi.collision;
+
 }
