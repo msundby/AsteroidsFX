@@ -142,12 +142,34 @@ public class Main extends Application {
         }
     }
 
+    private void checkPlayerLives() {
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/attributes/lives"))
+                .GET().build();
+
+        try {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.body().equals("0")) {
+                stopGame();
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void stopGame() {
+        timer.cancel();
+        System.out.println("Game Over");
+    }
+
     Timer timer = new Timer();
     TimerTask task = new TimerTask() {
         @Override
         public void run() {
             updateScoreText();
             updateLives();
+            checkPlayerLives();
         }
     };
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class ScoringSystem {
 
     private int totalscore = 0;
-    private int playerlives = 3;
+    private int playerlives = 100;
 
     boolean gameOver = false;
     public static void main(String[] args) {
